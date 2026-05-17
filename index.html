@@ -5,4 +5,25 @@
 <body>
 Сегодня отличный день. <br>Я сделал свою первую страничку.
 </body>
+    function getMin(a, b) {
+        return a < b ? a : b;
+    }
+
+    // Пример использования (можно вызвать в консоли или прямо на странице)
+    function showExample() {
+        let num1 = 10;
+        let num2 = 3;
+        let minVal = getMin(num1, num2);
+        document.getElementById('demo').innerHTML = 'Минимум из ' + num1 + ' и ' + num2 + ' = ' + minVal;
+    }
+          </head>
+<body>
+    Сегодня отличный день. <br>Я сделал свою первую страничку.
+
+    <!-- Кнопка для демонстрации функции -->
+    <br><br>
+    <button onclick="showExample()">Найти минимум (пример)</button>
+    <p id="demo"></p>
+</body>
+</script>
 </html>
