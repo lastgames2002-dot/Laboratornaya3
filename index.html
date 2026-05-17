@@ -1,47 +1,341 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-<title>Эта страница создана за 5 минут</title>
-</head>
-<body>
-    Сегодня отличный день. <br>Я сделал свою первую страничку.
-
-    <h3>Индивидуальное задание 2</h3>
-    <p id="result"></p>
-
-    <h3>Индивидуальное задание 3</h3>
-    <p>Откройте консоль или следите за диалогами:</p>
-
-    <script>
-        // Задание 2 (уже было)
-        let admin;
-        let name = "Эльдар";
-        admin = name;
-        alert("admin = " + admin);
-        document.getElementById('result').innerHTML = "Значение admin: <strong>" + admin + "</strong>";
-
-        // Задание 3: запрос возраста с уточнением
-        function askAge() {
-            let age;
-            let confirmed = false;
-
-            while (!confirmed) {
-                // Запрашиваем возраст (если отмена – вернётся null)
-                age = prompt("Введите ваш возраст:");
-
-                // Если пользователь нажал "Отмена" в prompt, повторяем запрос
-                if (age === null) {
-                    continue;
-                }
-
-                // Уточняем: "Вы ввели X. Верно?" (ОК — да, Отмена — нет)
-                confirmed = confirm("Вы ввели " + age + ". Верно?");
-            }
-            // Завершаем выполнение (можно вывести итоговое сообщение)
-            alert("Спасибо! Ваш возраст: " + age);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме | Эльдар Карданов</title>
+    <style>
+        /* Общие стили, тени, рамки, цвет текста */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        // Запускаем функцию
-        askAge();
-    </script>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Карточка резюме – тень, рамка, скругление */
+        .resume-card {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 5px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px 35px 40px 35px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .resume-card:hover {
+            box-shadow: 0 28px 50px rgba(0, 0, 0, 0.25);
+            transform: translateY(-3px);
+        }
+
+        /* Шапка с фото и основными данными */
+        .resume-header {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 25px;
+        }
+
+        .photo-frame {
+            flex-shrink: 0;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 4px solid white;
+            transition: 0.2s;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 28px rgba(0, 0, 0, 0.25);
+        }
+
+        .title-info h1 {
+            font-size: 2.6rem;
+            letter-spacing: -0.5px;
+            color: #1e293b;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .title-info p {
+            font-size: 1.3rem;
+            color: #2c3e66;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Секции */
+        .section {
+            margin: 28px 0;
+            padding: 5px 0;
+        }
+
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #0f172a;
+            border-left: 6px solid #3b82f6;
+            padding-left: 15px;
+            margin-bottom: 18px;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.02);
+        }
+
+        .info-line {
+            font-size: 1.1rem;
+            margin: 12px 0;
+            color: #1e293b;
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-line strong {
+            color: #0f3b6f;
+        }
+
+        /* Поле ввода и кнопки */
+        .controls {
+            background: #f1f5f9;
+            border-radius: 24px;
+            padding: 20px 25px;
+            margin: 30px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: flex-end;
+            border: 1px solid #cbd5e1;
+            box-shadow: inset 0 1px 2px #ffffff80, 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 40px;
+            outline: none;
+            transition: 0.2s;
+            background: white;
+            font-family: inherit;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+
+        button {
+            background: #3b82f6;
+            border: none;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ffffff30;
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.3);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .random-bg-btn {
+            background: #64748b;
+        }
+
+        .random-bg-btn:hover {
+            background: #475569;
+        }
+
+        .age-btn {
+            background: #10b981;
+        }
+
+        .age-btn:hover {
+            background: #059669;
+        }
+
+        footer {
+            margin-top: 35px;
+            padding-top: 15px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #5b6e8c;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        /* Адаптив */
+        @media (max-width: 650px) {
+            .resume-card {
+                padding: 20px;
+            }
+            .resume-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .title-info h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="resume-card" id="resumeCard">
+    <!-- Шапка резюме -->
+    <div class="resume-header">
+        <div class="photo-frame">
+            <!-- Фото (можно заменить на свою ссылку) -->
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Фото профиля">
+        </div>
+        <div class="title-info">
+            <h1>Эльдар <span id="lastNameDisplay">Карданов</span></h1>
+            <p>Frontend-разработчик | React, JS, HTML/CSS</p>
+        </div>
+    </div>
+
+    <!-- Блок с деталями -->
+    <div class="section">
+        <div class="section-title">Обо мне</div>
+        <div class="info-line"><strong>Имя:</strong> Эльдар</div>
+        <div class="info-line"><strong>Фамилия:</strong> <span id="lastNameText">Карданов</span></div>
+        <div class="info-line"><strong>Город:</strong> Москва</div>
+        <div class="info-line"><strong>Email:</strong> eldar.kardanov@example.com</div>
+        <div class="info-line"><strong>Навыки:</strong> JavaScript, React, Node.js, Figma</div>
+    </div>
+
+    <!-- Панель управления: изменение фамилии + случайный фон -->
+    <div class="controls">
+        <div class="input-group">
+            <label>✏️ Новая фамилия</label>
+            <input type="text" id="surnameInput" placeholder="Введите фамилию" value="Карданов">
+        </div>
+        <button id="changeSurnameBtn">Изменить фамилию</button>
+        <button id="randomBgBtn" class="random-bg-btn">🎲 Случайный фон</button>
+        <button id="ageDialogBtn" class="age-btn">📅 Указать возраст</button>
+    </div>
+
+    <!-- Вывод admin из задания 2 -->
+    <footer>
+        <span id="adminOutput"></span> | <span>Кликните "Указать возраст" для выполнения задания №3</span>
+    </footer>
+</div>
+
+<script>
+    // ---------- ЗАДАНИЕ 2 (admin и name) ----------
+    let admin;
+    let name = "Эльдар";
+    admin = name;
+    console.log("admin = " + admin);
+    document.getElementById('adminOutput').innerHTML = "✔️ admin = <strong>" + admin + "</strong>";
+
+    // ---------- ЗАДАНИЕ 3 (опрос возраста с уточнением) ----------
+    function askAgeWithConfirm() {
+        let age;
+        let confirmed = false;
+
+        while (!confirmed) {
+            age = prompt("Введите ваш возраст:");
+            if (age === null) {
+                continue;
+            }
+            confirmed = confirm("Вы ввели " + age + ". Верно?");
+        }
+        alert("Спасибо! Ваш возраст: " + age);
+    }
+
+    document.getElementById('ageDialogBtn').addEventListener('click', function() {
+        askAgeWithConfirm();
+    });
+
+    // ---------- Функционал изменения фамилии ----------
+    const lastNameDisplaySpan = document.getElementById('lastNameDisplay');
+    const lastNameTextSpan = document.getElementById('lastNameText');
+    const surnameInput = document.getElementById('surnameInput');
+    const changeBtn = document.getElementById('changeSurnameBtn');
+
+    function updateSurname(newSurname) {
+        if (newSurname.trim() !== "") {
+            lastNameDisplaySpan.innerText = newSurname;
+            lastNameTextSpan.innerText = newSurname;
+        } else {
+            alert("Пожалуйста, введите фамилию!");
+        }
+    }
+
+    changeBtn.addEventListener('click', () => {
+        updateSurname(surnameInput.value);
+    });
+
+    surnameInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            updateSurname(surnameInput.value);
+        }
+    });
+
+    // ---------- Случайный цвет фона ----------
+    const randomBgButton = document.getElementById('randomBgBtn');
+
+    function getRandomPastel() {
+        const hue = Math.floor(Math.random() * 360);
+        return `hsl(${hue}, 60%, 78%)`;
+    }
+
+    randomBgButton.addEventListener('click', () => {
+        const newColor = getRandomPastel();
+        document.body.style.backgroundColor = newColor;
+        document.body.style.backgroundImage = 'none';
+    });
+
+    console.log("Страница резюме Эльдара Карданова загружена.");
+</script>
 </body>
 </html>
