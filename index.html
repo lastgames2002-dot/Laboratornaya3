@@ -3,49 +3,45 @@
 <title>Эта страница создана за 5 минут</title>
 </head>
 <body>
-Сегодня отличный день. <br>Я сделал свою первую страничку.
-</body>
-    function getMin(a, b) {
-        return a < b ? a : b;
-    }
-
-    // Пример использования (можно вызвать в консоли или прямо на странице)
-    function showExample() {
-        let num1 = 10;
-        let num2 = 3;
-        let minVal = getMin(num1, num2);
-        document.getElementById('demo').innerHTML = 'Минимум из ' + num1 + ' и ' + num2 + ' = ' + minVal;
-    }
-          </head>
-<body>
     Сегодня отличный день. <br>Я сделал свою первую страничку.
 
-    <!-- Кнопка для демонстрации функции -->
-    <br><br>
-    <button onclick="showExample()">Найти минимум (пример)</button>
-    <p id="demo"></p>
-</body>
-</script>
-             <h3>Индивидуальное задание 2</h3>
+    <h3>Индивидуальное задание 2</h3>
     <p id="result"></p>
 
+    <h3>Индивидуальное задание 3</h3>
+    <p>Откройте консоль или следите за диалогами:</p>
+
     <script>
-        // 1. Объявляем переменные admin и name
+        // Задание 2 (уже было)
         let admin;
-        let name;
-
-        // 2. Записываем в name строку с именем
-        name = "Эльдар";
-
-        // 3. Копируем значение из name в admin
+        let name = "Эльдар";
         admin = name;
-
-        // 4. Выводим admin (разными способами для наглядности)
-
-        // Способ 1: всплывающее окно
         alert("admin = " + admin);
-
-        // Способ 2: вывод в параграф на странице
         document.getElementById('result').innerHTML = "Значение admin: <strong>" + admin + "</strong>";
+
+        // Задание 3: запрос возраста с уточнением
+        function askAge() {
+            let age;
+            let confirmed = false;
+
+            while (!confirmed) {
+                // Запрашиваем возраст (если отмена – вернётся null)
+                age = prompt("Введите ваш возраст:");
+
+                // Если пользователь нажал "Отмена" в prompt, повторяем запрос
+                if (age === null) {
+                    continue;
+                }
+
+                // Уточняем: "Вы ввели X. Верно?" (ОК — да, Отмена — нет)
+                confirmed = confirm("Вы ввели " + age + ". Верно?");
+            }
+            // Завершаем выполнение (можно вывести итоговое сообщение)
+            alert("Спасибо! Ваш возраст: " + age);
+        }
+
+        // Запускаем функцию
+        askAge();
     </script>
+</body>
 </html>
