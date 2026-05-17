@@ -26,4 +26,26 @@
     <p id="demo"></p>
 </body>
 </script>
+             <h3>Индивидуальное задание 2</h3>
+    <p id="result"></p>
+
+    <script>
+        // 1. Объявляем переменные admin и name
+        let admin;
+        let name;
+
+        // 2. Записываем в name строку с именем
+        name = "Эльдар";
+
+        // 3. Копируем значение из name в admin
+        admin = name;
+
+        // 4. Выводим admin (разными способами для наглядности)
+
+        // Способ 1: всплывающее окно
+        alert("admin = " + admin);
+
+        // Способ 2: вывод в параграф на странице
+        document.getElementById('result').innerHTML = "Значение admin: <strong>" + admin + "</strong>";
+    </script>
 </html>
